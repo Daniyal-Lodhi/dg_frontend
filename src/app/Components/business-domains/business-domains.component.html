@@ -1,0 +1,307 @@
+<div class="mt-12 ml-5 sm:mt-5 flex-col space-y-5 text-gray-800 sm:pr-5 sm:pl-3">
+    <div class="">
+        <h1 class="text-3xl font-sans font-semibold mb-2">Business Domains </h1>
+        <p>A business domain is a distinct and specialized area within our organization, each with its unique focus and
+            responsibilities. These domains are essential pillars that drive our business operations, ensuring
+            efficiency, organization, and effective management of specific functions. With dedicated owners overseeing
+            their respective domains, they play a pivotal role in maintaining data accuracy, security, and
+            accessibility. Our business domains include 'Customer Data,' 'Product Catalog,' and 'Financial Records,' and
+            they are meticulously crafted to meet specific business needs while upholding the highest standards of data
+            integrity and functionality.</p>
+            
+        <div class="my-2 flex-col gap-3 ">
+            <div *ngIf="render==='aspects'">
+            <h1 class="text-3xl font-sans font-semibold mb-2">Business domain aspects</h1>
+            <p>This section encompasses various aspects of our business domains, with several main branches highlighted
+                below. These key branches serve as the foundation for organizing and managing specific business
+                functions, ensuring data integrity and efficient operations throughout our organization.</p>
+            <div class="flex-col justify-start sm:w-[80%] mb-4  w-full mt-4 font-semibold font-sans">
+                <div>1. User</div>
+                <div>2. Products</div>
+                <div>3. Financial Records<div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+            <!-- user -->
+            <div class="flex-col space-y-5 " *ngIf="render==='customerdata'">
+                <div>
+                    <h1 class="text-3xl font-medium mb-2 ">{{bData.customerdata.name}} / <span
+                            class="text-base font-normal align-middle ">
+                            {{bData.customerdata.description}}</span></h1>
+                    <p>Our 'User Data' domain serves as a secure repository for all User-related information. Owned and
+                        managed by our diligent Marketing Department, it encompasses a wide array of User profiles,
+                        ensuring
+                        up-to-date and comprehensive records. Established with the latest industry standards, this
+                        repository
+                        guarantees data accuracy, privacy, and accessibility for our organization's personnel, enabling
+                        informed
+                        decision-making, personalized user interactions, and effective marketing strategies.</p>
+                </div>
+                <div>
+                    <div class="flex flex-col space-y-3 ">
+                        <div class="flex justify-between md:w-[50%] w-[90%]  font-normal">
+                            <p class="font-semibold">Owner/Access </p>
+                            <p>{{bData.customerdata.owner}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">created At </p>
+                            <p>{{bData.customerdata.createdDate}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">Last Modified </p>
+                            <p>{{bData.customerdata.lastModified}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h1 class="text-2xl font-sans font-semibold">User Information</h1>
+                    <p>Following data is representing the user details and other data used for the development
+                        purpose,Although
+                        it does not contain any personal or confedential data like contact or password but still only
+                        marketing
+                        head
+                        and authorize memebers has access to data.You are responsible for any misuse of data.</p>
+                    <div class=" overflow-x-auto">
+                        <h1 class="text-xl font-sans my-4 font-semibold">Records</h1>
+
+                        <div class="relative overflow-x-auto w-80 sm:w-[80%] sm:mx-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Username
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            User Type
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            User status
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            User Location
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let user of bData.customerdata.entries">
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{user.entryName}}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{user.entryType}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{user.entryStatus}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Karachi,Pakistan
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product -->
+            <div class="flex-col space-y-7 " *ngIf="render==='productcataloge'">
+                <div>
+                    <h1 class="text-3xl font-medium mb-2 ">{{bData.productcataloge.name}} / <span
+                            class="text-base font-normal align-middle ">
+                            {{bData.productcataloge.description}}</span></h1>
+                    <p>A product catalog is a comprehensive and organized compilation of all the products or items that
+                        a
+                        company offers to its customers. It serves as a valuable resource for customers, providing
+                        detailed
+                        information about each product, including descriptions, specifications, pricing, and
+                        availability.
+                        Product catalogs can be available in both physical and digital formats, making it convenient for
+                        customers to browse and select the products they need</p>
+
+                    <h1 class="text-2xl font-sans font-medium mb-2 mt-2 ">Product types</h1>
+                    <p>Product types categorize items based on shared characteristics or functionality, making it easier
+                        for
+                        businesses and customers to identify and select the products that meet specific needs. Whether
+                        it's
+                        electronics, clothing, or furniture</p>
+                </div>
+                <div>
+                    <div class="flex flex-col space-y-3 ">
+                        <div class="flex justify-between md:w-[50%] w-[90%]  font-normal">
+                            <p class="font-semibold">Owner/Access </p>
+                            <p>{{bData.productcataloge.owner}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">created At </p>
+                            <p>{{bData.productcataloge.createdDate}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">Last Modified </p>
+                            <p>{{bData.productcataloge.lastModified}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h1 class="text-2xl font-sans font-semibold ">Inventory Information</h1>
+                    <p>Inventory information is a critical aspect of our development data, essential for the efficient
+                        management of our product offerings. While it doesn't contain personal or confidential data,
+                        access to
+                        this valuable resource is restricted to authorized personnel, particularly our Marketing Head
+                        and
+                        authorized team members</p>
+                    <div class=" overflow-x-auto">
+                        <h1 class="text-xl font-sans my-4 font-semibold">Records</h1>
+
+                        <div class="relative overflow-x-auto w-80 sm:w-[80%] sm:mx-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Product Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Product Type
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Product Status
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Product Availability
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let product of bData.productcataloge.entries">
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{product.entryName}}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{product.entryType}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{product.entryStatus}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Available
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Financial Records -->
+            <div class="flex-col space-y-7" *ngIf="render==='financialRecords'">
+                <div>
+                    <h1 class="text-3xl font-medium mb-2 ">{{bData.financialRecords.name}} / <span
+                            class="text-base font-normal align-middle ">
+                            {{bData.financialRecords.description}}</span></h1>
+                    <p>Financial records serve as the backbone of our organization's fiscal health and decision-making
+                        process.
+                        Accessible only to authorized individuals, these records encompass budget plans, expenditure
+                        reports,
+                        and financial forecasts. Our commitment to responsible handling of financial data ensures
+                        transparency,
+                        accuracy, and compliance, supporting strategic financial planning and effective resource
+                        allocation for
+                        our organization.</p>
+
+                    <h1 class="text-2xl font-sans font-medium mb-2 mt-2 ">Financial Records: Empowering Informed
+                        Decisions</h1>
+                    <p>Our financial records are more than just numbers; they are the guiding compass of our
+                        organization's
+                        financial stability and growth. With strict access control, these records encompass budgets,
+                        expenditures, and forecasts, allowing our financial team to make well-informed decisions. We
+                        take great
+                        care to ensure data accuracy, compliance, and transparency.</p>
+                </div>
+                <div>
+                    <div class="flex flex-col space-y-3 ">
+                        <div class="flex justify-between md:w-[50%] w-[90%]  font-normal">
+                            <p class="font-semibold">Owner/Access </p>
+                            <p>{{bData.financialRecords.owner}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">created At </p>
+                            <p>{{bData.financialRecords.createdDate}}</p>
+                        </div>
+                        <div class="flex justify-between md:w-[50%] w-[90%] font-normal">
+                            <p class="font-semibold">Last Modified </p>
+                            <p>{{bData.financialRecords.lastModified}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h1 class="text-2xl font-sans font-semibold">Financial Information</h1>
+                    <p>Our financial information provides a comprehensive overview of our organization's monetary
+                        activities. It
+                        includes details about budgets, expenses, revenues, and financial forecasts. This data plays a
+                        crucial
+                        role in shaping our financial strategies, aiding in prudent financial management, budgeting, and
+                        long-term planning</p>
+                    <div class=" overflow-x-auto">
+                        <h1 class="text-xl font-sans my-4 font-semibold">Financial Records</h1>
+
+                        <div class="relative overflow-x-auto w-80 sm:w-[80%] sm:mx-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Transaction Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Expended
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Transaction Status
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Details
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let record of bData.financialRecords.entries">
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{record.entryName}}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{record.entryType}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{record.entryStatus}}
+
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Available
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,226 @@
+{
+    "orders": {
+        "about": {
+            "sectionName": "Orders",
+            "description": "Manage and track all your orders, including purchase and sales orders."
+        },
+        "purchaseOrders": {
+            "about": {
+                "sectionName": "Purchase Orders",
+                "description": "Manage your procurement and purchase orders."
+            },
+            "orders": {
+                "currentMonth": [
+                    {
+                        "orderNumber": "PO-2023-001",
+                        "supplier": "ABC Suppliers",
+                        "totalAmount": 1500.00,
+                        "status": "Open"
+                    },
+                    {
+                        "orderNumber": "PO-2023-002",
+                        "supplier": "XYZ Distributors",
+                        "totalAmount": 2200.00,
+                        "status": "In Progress"
+                    },
+                    {
+                        "orderNumber": "PO-2023-003",
+                        "supplier": "123 Trading Co.",
+                        "totalAmount": 1800.00,
+                        "status": "Completed"
+                    }
+                ],
+                "lastMonth": [
+                    {
+                        "orderNumber": "PO-2023-004",
+                        "supplier": "LMN Enterprises",
+                        "totalAmount": 1900.00,
+                        "status": "Open"
+                    }
+                ],
+                "last2Months": [
+                    {
+                        "orderNumber": "PO-2023-005",
+                        "supplier": "PQR Imports",
+                        "totalAmount": 2500.00,
+                        "status": "In Progress"
+                    }
+                ]
+            },
+            "saleOrders": {
+                "about": {
+                    "sectionName": "Sales Orders",
+                    "description": "Manage your sales orders and customer transactions."
+                },
+                "orders": {
+                    "currentMonth": [
+                        {
+                            "orderNumber": "SO-2023-001",
+                            "customer": "Company A",
+                            "totalAmount": 5000.00,
+                            "status": "Shipped"
+                        },
+                        {
+                            "orderNumber": "SO-2023-002",
+                            "customer": "Company B",
+                            "totalAmount": 3200.00,
+                            "status": "In Progress"
+                        },
+                        {
+                            "orderNumber": "SO-2023-003",
+                            "customer": "Company C",
+                            "totalAmount": 7500.00,
+                            "status": "Completed"
+                        }
+                    ],
+                    "lastMonth": [
+                        {
+                            "orderNumber": "SO-2023-004",
+                            "customer": "Company D",
+                            "totalAmount": 4200.00,
+                            "status": "Shipped"
+                        }
+                    ],
+                    "last2Months": [
+                        {
+                            "orderNumber": "SO-2023-005",
+                            "customer": "Company E",
+                            "totalAmount": 6000.00,
+                            "status": "In Progress"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "projects": {
+        "websiteProjects": [
+            {
+                "name": "Project A",
+                "projectType": "Web Development",
+                "startDate": "2023-03-15",
+                "endDate": "2023-06-30",
+                "totalTimeTaken": "3 months",
+                "budget": 25000.00,
+                "projectManager": "John Doe",
+                "clientName": "Client X"
+            },
+            {
+                "name": "Project B",
+                "projectType": "Web Design",
+                "startDate": "2023-04-20",
+                "endDate": "2023-07-15",
+                "totalTimeTaken": "2.5 months",
+                "budget": 18000.00,
+                "projectManager": "Jane Smith",
+                "clientName": "Client Y"
+            }
+        ],
+        "AndroidProjects": [
+            {
+                "name": "Project C",
+                "projectType": "Mobile App Development",
+                "startDate": "2023-02-10",
+                "endDate": "2023-05-25",
+                "totalTimeTaken": "3.5 months",
+                "budget": 30000.00,
+                "projectManager": "Mike Johnson",
+                "clientName": "Client Z"
+            }
+        ],
+        "AiProjects": [
+            {
+                "name": "Project D",
+                "projectType": "Artificial Intelligence",
+                "startDate": "2023-01-05",
+                "endDate": "2023-09-30",
+                "totalTimeTaken": "9 months",
+                "budget": 50000.00,
+                "projectManager": "Sarah Brown",
+                "clientName": "Client W"
+            }
+        ]
+    },
+    "tags": {
+        "BigProjects": {
+            "description": "Projects with a significant budget and scope."
+        },
+        "topSalesOrders": {
+            "description": "High-value sales orders."
+        }
+    },
+    "businessDomains": {
+        "customerdata": {
+            "name": "Customer Data",
+            "description": "Data related to customer information",
+            "owner": "Marketing Department",
+            "createdDate": "2023-11-15",
+            "lastModified": "2023-11-20",
+            "entries": [
+                {
+                    "entryName": "Customer Profile 1",
+                    "entryType": "Individual",
+                    "entryStatus": "Active"
+                },
+                {
+                    "entryName": "Customer Profile 2",
+                    "entryType": "Company",
+                    "entryStatus": "Active"
+                },
+                {
+                    "entryName": "Customer Profile 3",
+                    "entryType": "Individual",
+                    "entryStatus": "Inactive"
+                }
+            ]
+        },
+        "productcataloge": {
+            "name": "Product Catalog",
+            "description": "Information about the company's product offerings",
+            "owner": "Product Management Team",
+            "createdDate": "2023-10-10",
+            "lastModified": "2023-11-25",
+            "entries": [
+                {
+                    "entryName": "Product 1",
+                    "entryType": "Electronics",
+                    "entryStatus": "Available"
+                },
+                {
+                    "entryName": "Product 2",
+                    "entryType": "Clothing",
+                    "entryStatus": "Out of Stock"
+                },
+                {
+                    "entryName": "Product 3",
+                    "entryType": "Furniture",
+                    "entryStatus": "Available"
+                }
+            ]
+        },
+        "financialRecords": {
+            "name": "Financial Records",
+            "description": "Financial data, including budgets and expenses",
+            "owner": "Finance Department",
+            "createdDate": "2023-09-05",
+            "lastModified": "2023-11-18",
+            "entries": [
+                {
+                    "entryName": "Q3 Budget",
+                    "entryType": "Budget Plan",
+                    "entryStatus": "Approved"
+                },
+                {
+                    "entryName": "Expenses Report",
+                    "entryType": "Expenditure",
+                    "entryStatus": "Under Review"
+                },
+                {
+                    "entryName": "Financial Forecast",
+                    "entryType": "Projection",
+                    "entryStatus": "Finalized"
+                }
+            ]
+        }
+    }
+}
