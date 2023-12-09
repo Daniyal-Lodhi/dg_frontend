@@ -1,0 +1,126 @@
+<div class="flex sm:pr-2">
+    <!-- Trigger display id is to get the id number of the meta data value that has to be displayed -->
+    <app-side-nav (triggerDisplayId)="displayData($event)" [treeData]="ColumnsData"
+        [forComponent]="'metaDataValues'"></app-side-nav>
+
+    <div class="sm:w-[95%] sm:ml-2 mt-8 sm:mt-0 w-full flex-col " *ngIf="Data">
+        <div class="flex-col mt-5">
+            <div class="flex justify-between mx-2 sm:mx-0">
+                <div class="text-3xl text-gray-700 font-bold " *ngIf="Data.tableName">Table data</div>
+                <div class="text-3xl text-gray-700 font-bold " *ngIf="Data.columnName">Column data</div>
+
+                <button (click)="toggleshowAddEntity()" class="bg-black text-white px-2 py-1 rounded-md">{{!showAddEntity?'Map business entities':'Close mapping'}}</button>
+            </div>
+            
+            <!-- for Auto Complete Chip -->
+            <div *ngIf="showAddEntity" class="mt-6 mb-3  mx-2 sm:mx-0">
+                <form>
+                    <mat-form-field class="example-chip-list ">
+                        <mat-label>Business domains entities linking</mat-label>
+                        <mat-chip-grid #chipGrid aria-label="Entity selection">
+                            <ng-container *ngFor="let Entity of businesdomainEntities; let i = index">
+                                <mat-chip #chipGrid aria-label="Entity selection">
+                                    <mat-chip-row (removed)="remove(Entity)">
+                                        {{ Entity.name }}
+                                        <button matChipRemove [attr.aria-label]="'remove ' + Entity">
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip-row>
+                                </mat-chip>
+                            </ng-container>
+                        </mat-chip-grid>
+                        <input placeholder="Add entity" class="rounded-lg" #EntityInput [formControl]="domainCtrl"
+                            [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <ng-container
+                                *ngFor="let Entity of filtered_businesdomainEntities | async; trackBy: trackByFn">
+                                <mat-option [value]="Entity">{{ Entity.name }}</mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+
+                    </mat-form-field>
+                </form>
+                <div class="flex-col items-end space-y-2">
+                    <button (click)="mapEntities()" class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map entity':'Map Entities'}}</button>
+                    <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to current {{Data.tableName?'table':'column'}})</p>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div
+                class="mt-2 w-auto sm:mt-5 mx-2 bg-gray-white text-lg border-t shadow-lg rounded-md p-2 sm:mx-0 text-gray-700">
+                <table class="w-full border-separate border-spacing-y-3">
+
+
+                    <!-- Common properties for table and column START -->
+                    <tr>
+                        <td class="label">Id number:</td>
+                        <td>{{ Data.id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Created by:</td>
+                        <td>{{ Data.createdBy || "Anonymous" }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Created on:</td>
+                        <td>{{ Date(Data.createdOn) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Last updated:</td>
+                        <td>{{ Date(Data.updatedOn) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Status:</td>
+                        <td>{{ Data.flag }}</td>
+                    </tr>
+                    <!-- Common properties for table and column END -->
+
+                    <!-- Table-specific properties START -->
+                    <tr *ngIf="Data.tableName">
+                        <td class="label">Table name:</td>
+                        <td>{{ Data.tableName }}</td>
+                    </tr>
+                    <tr *ngIf="Data.schemaName">
+                        <td class="label">Schema:</td>
+                        <td>{{ Data.schemaName }}</td>
+                    </tr>
+                    <tr *ngIf="Data.schemaNtableCatalogame">
+                        <td class="label">Catalog:</td>
+                        <td>{{ Data.tableCatalog }}</td>
+                    </tr>
+                    <!-- Table-specific properties END-->
+
+
+                    <!-- Column-specific properties START -->
+                    <tr *ngIf="Data.columnName">
+                        <td class="label">Column name:</td>
+                        <td>{{ Data.columnName }}</td>
+                    </tr>
+                    <tr *ngIf="Data.datatype">
+                        <td class="label">Data type:</td>
+                        <td>{{ Data.datatype }}</td>
+                    </tr>
+                    <tr *ngIf="Data.maximumCharacterLength">
+                        <td class="label">Maximum character length:</td>
+                        <td>{{ Data.maximumCharacterLength }}</td>
+                    </tr>
+                    <tr *ngIf="Data.isNullable">
+                        <td class="label">Nullable:</td>
+                        <td>{{ Data.isNullable }}</td>
+                    </tr>
+                    <tr *ngIf="Data.ordinalPosition">
+                        <td class="label">Ordinal position:</td>
+                        <td>{{ Data.ordinalPosition }}</td>
+                    </tr>
+                    <!-- Column-specific properties END -->
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

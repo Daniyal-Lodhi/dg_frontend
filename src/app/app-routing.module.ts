@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SelectDatabasesComponent } from './Components/select-databases/select-databases.component';
-import { SideNavComponent } from './Components/side-nav/side-nav.component';
-import { OrderComponent } from './Components/order/order.component';
-import { ProjectsComponent } from './Components/projects/projects.component';
+import { MetadatavaluesComponent } from './Components/metadatavalues/metadatavalues.component';
 import { BusinessDomainsComponent } from './Components/business-domains/business-domains.component';
+import { dbConfigs } from './Components/dbconfigs/db-configs.component';
 const routes: Routes = [
-  {path:'',component:SelectDatabasesComponent},
-  {path:"sidenav",component:SideNavComponent},
+  {path:'dbConfigs',component:dbConfigs},
+  {path:"metadatavalues",component:MetadatavaluesComponent},
   {path:"businessdomains",component:BusinessDomainsComponent},
-  {path:"orders",component:OrderComponent},
-  {path:"projects",component:ProjectsComponent},
 ];
 
 @NgModule({

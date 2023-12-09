@@ -4,26 +4,29 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SideNavComponent } from './Components/side-nav/side-nav.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { SelectDatabasesComponent } from './Components/select-databases/select-databases.component';
-import { OrderComponent } from './Components/order/order.component';
+import { dbConfigs } from './Components/dbconfigs/db-configs.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ProjectsComponent } from './Components/projects/projects.component';
-import { BusinessDomainsComponent } from './Components/business-domains/business-domains.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MetadatavaluesComponent } from './Components/metadatavalues/metadatavalues.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { BusinessDomainsComponent } from './Components/business-domains/business-domains.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+import {AsyncPipe} from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SelectDatabasesComponent,
-    OrderComponent,
+    dbConfigs,
     SideNavComponent,
-    ProjectsComponent,
+    MetadatavaluesComponent,
     BusinessDomainsComponent,
   ],
   imports: [
@@ -37,7 +40,14 @@ import { HttpClientModule } from '@angular/common/http';
     MatTreeModule, 
     MatButtonModule, 
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    AsyncPipe
 
     
   ],

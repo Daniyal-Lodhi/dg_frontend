@@ -1,0 +1,7 @@
+#spinner{
+    color: white !important;
+}
+
+#spinner::ng-deep circle {
+    stroke: #fff;
+  }

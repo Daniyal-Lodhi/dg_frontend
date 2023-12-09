@@ -1,0 +1,69 @@
+<div class="overflow-hidden ">
+    <div class=" w-screen py-32 sm:mx-auto h-screen bg-slate-100 px-6 sm:px-16 lg:px-32 ">
+
+        <div *ngIf="dbConfigs && dbConfigs.length > 0" class="relative overflow-x-scroll md:overflow-auto shadow-md sm:rounded-lg rounded-sm">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Database name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Type
+                        </th>
+
+                        <th scope="col" class="px-6 py-3">
+                            Last updated
+                        </th>
+                        <th scope="col" [colSpan]="2" class="px-6 py-3">
+                            <span class="sr-only">Log data</span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody *ngFor="let db of dbConfigs" >
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{db.schemaName}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{db.type}}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {{Date(db.updatedOn)}}
+                        </td>
+                        <td class="px-6 py-4 ">
+
+
+                            <button (click)="loadData(db.url)"
+                                class="bg-indigo-500 w-28 flex justify-center h-10 hover:bg-indigo-600 text-white p-2 rounded-md">
+                                <div class="flex  items-center {{toString(db.id)}}">
+                                    <mat-icon class="text-white text-base ">cached</mat-icon>
+                                    <span>Load data</span>
+                                </div>
+                                <div class="{{toString(db.id)}} hidden">
+                                    <mat-spinner id="spinner" diameter="22"></mat-spinner>
+                                </div>
+                            </button>
+
+
+                        </td>
+                        <td class="px-6 py-4 text-right">
+
+                            <a routerLink="/metadatavalues"
+                                class="bg-green-600 w-28 flex justify-center items-center space-x-1 h-10 hover:bg-green-700 text-white p-1 rounded-md">
+                                <mat-icon class="text-white text-base ">visibility</mat-icon>
+                                    <span>View data</span>
+    
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

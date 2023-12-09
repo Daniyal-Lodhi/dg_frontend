@@ -1,9 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Data } from 'src/app/Data';
-import { DataService } from 'src/app/Services/data.service';
-
+import { dbConfigs } from '../dbconfigs/db-configs.component';
 
 
 // tree Interface
@@ -11,79 +9,7 @@ import { DataService } from 'src/app/Services/data.service';
 // tree data
 
 
-const TREE_DATA: any[] = [
-  {
-    name: 'Business domain',
-    url:'businessdomains',
-    children: [
-      { name: 'Users data',
-      url:'businessdomains',
-      show:'customerdata'
-
-    
-     },
-      { name: 'Product catalog',
-      url:'businessdomains',
-      show:'productcataloge'
-
-    },
-      { name: 'Financial records',
-      url:'businessdomains',
-      show:'financialRecords'
-
-    },
-    ],
-  },
-  {
-    name: 'Orders',
-    children: [
-      {
-        name: 'Purchase orders',
-        show: 'purchaseOrder',
-        url: 'orders'
-      },
-      {
-        name: 'Sales Orders ',
-        show: 'salesOrder',
-        url: 'orders'
-
-      }
-    ],
-  },
-  {
-    name: 'Projects',
-
-    children: [
-      {
-        name: 'Website Projects',
-        url: 'projects',
-        show:'webProjects'
-      },
-      {
-        name: 'Android Projects',
-        url: 'projects',
-        show:'androidProjects'
-
-      },
-      {
-        name: 'Ai Projects',
-        url: 'projects',
-        show:'aiProjects'
-
-      },
-    ],
-  },
- 
-  { 
-    name: 'Tags',
-    children: [
-      { name: 'Big projects' },
-      { name: 'Top Sales' },
-
-    ],
-  },
-
-];
+var TREE_DATA: any[] = [];
 
 /** Flat node with expandable and level information */
 
@@ -92,19 +18,85 @@ const TREE_DATA: any[] = [
   selector: 'app-side-nav',
   templateUrl: 'side-nav.component.html',
   styleUrls: ['side-nav.component.css'],
+  providers: [dbConfigs]
 
 })
-export class SideNavComponent {
-  treedata: Data;
-  route: string
+export class SideNavComponent implements OnInit {
+  // this is the data having the input value for indexing in different component and changes per component
+  @Input() treeData: any;
+  // decides from which component the data is coming from
+  @Input() forComponent: string;
+  @Output() triggerDisplayId: EventEmitter<object> = new EventEmitter();
 
+  constructor() { }
+
+  // To Inject Data into Tree
+  InjectTreeData() {
+    if (this.treeData) {
+      if (this.forComponent === 'businessDomain') {
+        TREE_DATA = [] 
+        for (var i = 0; i < this.treeData.length; i++) {
+          var childrenList = []
+
+          for (var j = 0; j < this.treeData[i].businessDomainEntitiesDtoList.length; j++) {
+            childrenList.push(
+              {
+                name: this.treeData[i].businessDomainEntitiesDtoList[j].name,
+                displayId: JSON.stringify(this.treeData[i].businessDomainEntitiesDtoList[j].id),
+                parentId:JSON.stringify(this.treeData[i].id) 
+              })
+          }
+          TREE_DATA[i] = {
+            name: this.treeData[i].name,
+            children: childrenList,
+            displayId: JSON.stringify(this.treeData[i].id)
+          }
+        }
+        // console.log(TREE_DATA)
+      }
+
+
+      if (this.forComponent === 'metaDataValues') {
+        TREE_DATA = []
+        for (var i = 0; i < this.treeData.length; i++) {
+          var childrenList = []
+
+          for (var j = 0; j < this.treeData[i].columnList.length; j++) {
+            childrenList.push(
+              {
+                name: this.treeData[i].columnList[j].columnName,
+                parentId:JSON.stringify(this.treeData[i].id),
+                displayId: JSON.stringify(this.treeData[i].columnList[j].id)
+              })
+          }
+          TREE_DATA[i] = {
+            name: this.treeData[i].tableName,
+            children: childrenList,
+            displayId: JSON.stringify(this.treeData[i].id)
+          }
+        }
+      }
+      // console.log(TREE_DATA)
+
+      this.dataSource.data = TREE_DATA;
+    }
+  }
+  
+
+
+  // function to trigger the trigger Id event to parent metadatavalues componenet
+  InvokeIdTrigger(displayData:object ) {
+    this.triggerDisplayId.emit(displayData)
+    // console.log(displayId)
+  }
 
   private transformer = (node: any, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       show: node.show,
-      url: node.url,
+      displayId: node.displayId,
+      parentId : node.parentId,
       level: level,
     };
   };
@@ -123,14 +115,18 @@ export class SideNavComponent {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private datasource: DataService) {
-    this.dataSource.data = TREE_DATA;
-    this.treedata = datasource.getData()
-    // console.log(this.treedata)
-  }
+
+
 
   hasChild = (_: number, node: any) => node.expandable;
 
 
 
+  ngOnInit(): void {
+
+    this.InjectTreeData()
+
+
+    // console.log(TREE_DATA)
+  }
 }
