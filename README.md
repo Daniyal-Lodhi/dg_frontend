@@ -24,13 +24,13 @@ Make sure you have the following software installed on your machine:
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone https://github.com/your-username/angular-demo.git
+    git clone https://github.com/Daniyal-Lodhi/dg_frontend
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd DG_FRONTEND
+    cd dg_frontend
     ```
 
 3. Install project dependencies:
