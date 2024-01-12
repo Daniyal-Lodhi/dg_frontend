@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MetadatavaluesComponent } from './Components/metadatavalues/metadatavalues.component';
-import { BusinessDomainsComponent } from './Components/business-domains/business-domains.component';
-import { dbConfigs } from './Components/dbconfigs/db-configs.component';
+import { MetadatavaluesComponent } from './components/metadatavalues/metadatavalues.component';
+import { BusinessDomainsComponent } from './components/business-domains/business-domains.component';
+import { dbConfigs } from './components/dbconfigs/db-configs.component';
+import { AddBusinessDomainComponent } from './components/add-business-domain/add-business-domain.component';
+import { LoginComponent } from './modules/auth/login/login.component';
 const routes: Routes = [
+  {path:'login',component:LoginComponent},
   {path:'dbConfigs',component:dbConfigs},
-  {path:"metadatavalues",component:MetadatavaluesComponent},
+  {path:"metadatavalues/:id",component:MetadatavaluesComponent},
   {path:"businessdomains",component:BusinessDomainsComponent},
+  {path:"addbusinessdomain",component:AddBusinessDomainComponent},
 ];
 
 @NgModule({

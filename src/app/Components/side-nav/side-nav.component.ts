@@ -6,11 +6,10 @@ import { dbConfigs } from '../dbconfigs/db-configs.component';
 
 // tree Interface
 
-// tree data
+// tree data  
 
 
-var TREE_DATA: any[] = [];
-
+let TREE_DATA = [] 
 /** Flat node with expandable and level information */
 
 /** @title Drawer with explicit backdrop setting */
@@ -52,7 +51,6 @@ export class SideNavComponent implements OnInit {
             displayId: JSON.stringify(this.treeData[i].id)
           }
         }
-        // console.log(TREE_DATA)
       }
 
 
@@ -76,7 +74,7 @@ export class SideNavComponent implements OnInit {
           }
         }
       }
-      // console.log(TREE_DATA)
+      console.log("tree data is ",TREE_DATA)
 
       this.dataSource.data = TREE_DATA;
     }

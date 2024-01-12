@@ -1,18 +1,64 @@
 <div class="flex sm:pr-2">
     <!-- Trigger display id is to get the id number of the meta data value that has to be displayed -->
-    <app-side-nav (triggerDisplayId)="displayData($event)" [treeData]="ColumnsData"
-        [forComponent]="'metaDataValues'"></app-side-nav>
+    <!-- <app-side-nav *ngIf="ColumnsData" (triggerDisplayId)="displayData($event)" [treeData]="ColumnsData"
+        [forComponent]="'metaDataValues'"></app-side-nav> -->
+    <!-- tree structure -->
+    <div>
+        <div class="flex h-screen sm:mt-1  overflow-hidden z-10 fixed top-0 sm:relative">
+            <mat-drawer-container class="example-container w-auto h-auto " [hasBackdrop]="false">
+                <mat-drawer #drawer [mode]="'side'" class="w-64 h-full pt-10 sm:pt-0" opened="true">
 
+                    <div>
+                        <!-- div for button -->
+
+                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="ml-2">
+                            <!-- This is the tree node template for leaf nodes -->
+                            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                                <!-- use a disabled button to provide padding for tree leaf -->
+                                <!-- <button mat-icon-button disabled></button> -->
+
+                                <!-- InvokedTriggerID to send the id of display node and its parent node to the parent component -->
+                                <button 
+                                    (click)="displayTreeData({displayId:node.displayId,parentId:node.parentId})" (click)="getAliases(Data.id)">{{node.name}}
+                                
+                                </button>
+                                    
+                                <!-- <button routerLink="/orders" >{{node.name}}</button> -->
+
+                            </mat-tree-node>
+                            <!-- This is the tree node template for expandable nodes -->
+                            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" class="font-bold">
+
+                                <!-- InvokedTriggerID to send the id of displaynode to the parent component -->
+                                <button (click)="displayTreeData({displayId:node.displayId, parentId:undefined})"
+                                    id="nodeLink" matTreeNodeToggle [attr.aria-label]="'Toggle' + node.name">
+                                    <mat-icon class="mat-icon-rtl-mirror">
+                                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                    </mat-icon>
+
+                                    {{node.name }}
+                                </button>
+                            </mat-tree-node>
+                        </mat-tree>
+                    </div>
+                </mat-drawer>
+                <!-- <mat-drawer-content class="w-auto">
+                  </mat-drawer-content> -->
+            </mat-drawer-container>
+            <button (click)="drawer.toggle()"
+                class="bg-black rounded-full h-max mt-20 sm:mt-1 py-1 px-3 text-white">></button>
+        </div>
+    </div>
     <div class="sm:w-[95%] sm:ml-2 mt-8 sm:mt-0 w-full flex-col " *ngIf="Data">
-        <div class="flex-col mt-5">
-            <div class="flex justify-between mx-2 sm:mx-0">
-                <div class="text-3xl text-gray-700 font-bold " *ngIf="Data.tableName">Table data</div>
-                <div class="text-3xl text-gray-700 font-bold " *ngIf="Data.columnName">Column data</div>
+        <div class="flex-col mt-5 ">
+            <div class="flex justify-between mx-2 sm:mx-0 mb-3">
+                <div class="text-2xl text-gray-700 font-bold " *ngIf="Data.tableName">Table: {{Data.tableName}}</div>
+                <div class="text-2xl text-gray-700 font-bold " *ngIf="Data.columnName">Column: {{Data.columnName}}</div>
 
-                <button (click)="toggleshowAddEntity()" class="bg-black text-white px-2 py-1 rounded-md">{{!showAddEntity?'Map business entities':'Close mapping'}}</button>
+                <button (click)="toggleshowAddEntity()"
+                    class="bg-black text-white px-2 py-1 rounded-md">{{!showAddEntity?"Map business entities":"Close mapping"}}</button>
             </div>
-            
-            <!-- for Auto Complete Chip -->
+
             <div *ngIf="showAddEntity" class="mt-6 mb-3  mx-2 sm:mx-0">
                 <form>
                     <mat-form-field class="example-chip-list ">
@@ -29,98 +75,171 @@
                                 </mat-chip>
                             </ng-container>
                         </mat-chip-grid>
-                        <input placeholder="Add entity" class="rounded-lg" #EntityInput [formControl]="domainCtrl"
-                            [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                        <input placeholder="Add entity" class="rounded-lg" #EntityInput id="entinput" 
+                            [formControl]="domainCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
+
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                            <ng-container
-                                *ngFor="let Entity of filtered_businesdomainEntities | async; trackBy: trackByFn">
-                                <mat-option [value]="Entity">{{ Entity.name }}</mat-option>
+                            <ng-container *ngFor="let entity of filtered_businesdomainEntities | async">
+                                <mat-option *ngIf="!businesdomainEntities.includes(entity.name)" [value]="entity.name">
+                                    {{entity.name}}
+                                </mat-option>
+                                <!-- {{ entity.name }} -->
                             </ng-container>
                         </mat-autocomplete>
 
+
+
                     </mat-form-field>
                 </form>
-                <div class="flex-col items-end space-y-2">
-                    <button (click)="mapEntities()" class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map entity':'Map Entities'}}</button>
-                    <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to current {{Data.tableName?'table':'column'}})</p>
+                <div *ngIf="Data.tableName" class="flex-col items-end space-y-2 ">
+                    <button (click)="mapTableAndEntities(Data.id)"
+                        class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map entity':'Map Entities'}}</button>
+                            <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to
+                                current {{Data.tableName?'table':'column'}})</p>
+
+                </div> 
+                <div *ngIf="Data.columnName" class="flex-col items-end space-y-2">
+                    <button (click)="mapColumnAndEntities(Data.id)"
+                        class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map entity':'Map Entities'}}</button>
+                            <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to
+                                current {{Data.tableName?'table':'column'}})</p>
+
+                </div>
+
+            </div>
+            <div class="mt-2 w-auto sm:mt-5 mx-2 bg-gray-white text-base border-slate-300 border mb-4  rounded-lg p-2 sm:mx-0 text-gray-700"
+                *ngIf="Data.schemaName">
+                <table class="w-[50%] border-separate  border-spacing-y-1 text-base">
+                    <!-- <tr *ngIf="Data.tableName">
+                        <td class="label">Table name:</td>
+                        <td>{{ Data.tableName }}</td>
+                    </tr>
+                    <tr *ngIf="Data.columnName">
+                        <td class="label">Column name:</td>
+                        <td>{{ Data.columnName }}</td> 
+                    </tr> -->
+                    <tr *ngIf="Data.schemaName">
+                        <td class="label">Schema:</td>
+                        <td>{{ Data.schemaName }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="aliases">
+                <div class="px-2 py-1 border rounded-lg my-2">
+                    <div class="text-base font-bold">Aliases:</div>
+                    <div class="flex flex-wrap mt-2">
+                        <div *ngFor="let alias of aliases" class="flex  mr-2 mb-2">
+                            <div class="mr-2 mb-2 bg-slate-500 text-white px-3 py-1 rounded-full text-sm">{{alias.aliasName}}</div>    
+                            
+                           
+                        </div> 
+                        <!-- <div class="">
+                            <input [(ngModel)]="aliasName" name="alias" type="text" placeholder="Enter alias name" class="mb-2 text-sm border-b outline-none mr-3">   
+                            <button (click)="postAlias()" #aliasbtn class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
+
+                            </div> -->
+                    </div>
+                       <div class="ml-2">
+                            <input [(ngModel)]="aliasName" name="alias" type="text" placeholder="Enter alias name" class="mb-2 text-sm border-b outline-none mr-3">   
+                            <button (click)="postAlias()" #aliasbtn class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
+
+                            </div>
+                </div>
+
+                
+            </div>
+            <div class="border border-slate-300 rounded-lg px-2 my-3">
+
+                <div class="ml-5"
+                    *ngIf=" (Data.columnEntityMapDto && LengthOf(Data.columnEntityMapDto) > 0) || (Data.mappedBusinessDomainEntitiesDto && LengthOf(Data.mappedBusinessDomainEntitiesDto) != 0) "
+                    class="mb-2 mt-1">
+                    <div class=" text-base mt-0 mb-3 font-bold  text-slate-700  sm:ml-0"> Mapped buisness domain
+                        Entites:</div>
+                    <div class=" flex flex-wrap ">
+                        <div class="ml-3 "
+                            *ngFor="let mappedEntities of Data.columnEntityMapDto  || Data.mappedBusinessDomainEntitiesDto; index as i ">
+                            <div class="bg-slate-500 rounded-full relative text-white text-sm px-3 py-1 mb-2">
+                                <button *ngIf="Data.tableName" (click)="deleteTableMapping(mappedEntities.id)" class="absolute bg-black text-white -top-[8px] -right-2 rounded-full text-xs px-2 cursor-pointer">x</button>
+                                <button *ngIf="Data.columnName" (click)="deleteColMapping(mappedEntities.id)" class="absolute bg-black text-white -top-[8px] -right-2 rounded-full text-xs px-2 cursor-pointer">x</button>
+
+                                {{
+                                mappedEntities.name}}
+                                </div>
+ 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <div *ngIf="Data.columnName && relatedTerms.data[0]">
+            <div class="border p-2 rounded-lg border-slate-300">
+                <div class="text-base font-bold mb-2">
+                    Related terms:
+                </div>
+                <div class="flex mt-4 ">
+                    <div *ngFor="let related_term of relatedTerms.data"
+                        class="bg-slate-500 mr-2 mb-2 rounded-full text-white text-sm px-3 py-1 ">
+                        {{related_term.columnName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- input values -->
+        <div class="my-3 border p-2 rounded-lg border-slate-300" *ngIf="Data.columnName">
+            <div class="mb-5 text-xl font-bold">Input Values</div>
+            <div>
+
+
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Value
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                *ngFor="let value of InputValues">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{value.valueName}}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{value.description}}
+                                </td>
+                            </tr>
+                            <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 ">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <input [(ngModel)]="valueName" name="name" type="text"
+                                        class="inputvalues outline-none" placeholder="Value name here">
+                                </th>
+                                <td class="px-6 py-4 ">
+                                    <input [(ngModel)]="valueDescription" name="desc" type="text"
+                                        class="inputvalues outline-none" placeholder="Value description here">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button (click)="addInputValues()"
+                                        class="flex items-center justify-center h-full border my-auto text-center px-3 py-1 bg-slate-900 hover:bg-black rounded-md text-white">+</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
 
             </div>
 
-
-
-
-            <div
-                class="mt-2 w-auto sm:mt-5 mx-2 bg-gray-white text-lg border-t shadow-lg rounded-md p-2 sm:mx-0 text-gray-700">
-                <table class="w-full border-separate border-spacing-y-3">
-
-
-                    <!-- Common properties for table and column START -->
-                    <tr>
-                        <td class="label">Id number:</td>
-                        <td>{{ Data.id }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Created by:</td>
-                        <td>{{ Data.createdBy || "Anonymous" }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Created on:</td>
-                        <td>{{ Date(Data.createdOn) }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Last updated:</td>
-                        <td>{{ Date(Data.updatedOn) }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Status:</td>
-                        <td>{{ Data.flag }}</td>
-                    </tr>
-                    <!-- Common properties for table and column END -->
-
-                    <!-- Table-specific properties START -->
-                    <tr *ngIf="Data.tableName">
-                        <td class="label">Table name:</td>
-                        <td>{{ Data.tableName }}</td>
-                    </tr>
-                    <tr *ngIf="Data.schemaName">
-                        <td class="label">Schema:</td>
-                        <td>{{ Data.schemaName }}</td>
-                    </tr>
-                    <tr *ngIf="Data.schemaNtableCatalogame">
-                        <td class="label">Catalog:</td>
-                        <td>{{ Data.tableCatalog }}</td>
-                    </tr>
-                    <!-- Table-specific properties END-->
-
-
-                    <!-- Column-specific properties START -->
-                    <tr *ngIf="Data.columnName">
-                        <td class="label">Column name:</td>
-                        <td>{{ Data.columnName }}</td>
-                    </tr>
-                    <tr *ngIf="Data.datatype">
-                        <td class="label">Data type:</td>
-                        <td>{{ Data.datatype }}</td>
-                    </tr>
-                    <tr *ngIf="Data.maximumCharacterLength">
-                        <td class="label">Maximum character length:</td>
-                        <td>{{ Data.maximumCharacterLength }}</td>
-                    </tr>
-                    <tr *ngIf="Data.isNullable">
-                        <td class="label">Nullable:</td>
-                        <td>{{ Data.isNullable }}</td>
-                    </tr>
-                    <tr *ngIf="Data.ordinalPosition">
-                        <td class="label">Ordinal position:</td>
-                        <td>{{ Data.ordinalPosition }}</td>
-                    </tr>
-                    <!-- Column-specific properties END -->
-
-                </table>
-            </div>
         </div>
     </div>
 </div>

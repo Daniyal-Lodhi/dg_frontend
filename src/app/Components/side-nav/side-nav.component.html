@@ -3,7 +3,7 @@
         <mat-drawer #drawer [mode]="'side'"  class="w-64 h-full pt-10 sm:pt-0" opened="true" >
           
             <div>
-              <!-- div for button -->
+              <!-- div for button --> 
               <div class="ml-2 mt-2">
                 <button *ngIf="forComponent=='businessDomain'" class="bg-gray-800 hover:bg-gray-950 text-white rounded-md px-2 py-1 ">
                   + Add Business Domain
@@ -15,12 +15,15 @@
                   <!-- use a disabled button to provide padding for tree leaf -->
                   <!-- <button mat-icon-button disabled></button> -->
 
+                  <!-- InvokedTriggerID to send the id of display node and its parent node to the parent component -->
                   <button  (click)="InvokeIdTrigger({displayId:node.displayId,parentId:node.parentId})"  >{{node.name}}</button>
                   <!-- <button routerLink="/orders" >{{node.name}}</button> -->
 
                 </mat-tree-node>
                 <!-- This is the tree node template for expandable nodes -->
                 <mat-tree-node  *matTreeNodeDef="let node;when: hasChild" class="font-bold"  >
+
+                  <!-- InvokedTriggerID to send the id of displaynode to the parent component -->
                   <button (click)="InvokeIdTrigger({displayId:node.displayId, parentId:undefined})"  id="nodeLink"   matTreeNodeToggle 
                           [attr.aria-label]="'Toggle' + node.name">
                     <mat-icon class="mat-icon-rtl-mirror" >

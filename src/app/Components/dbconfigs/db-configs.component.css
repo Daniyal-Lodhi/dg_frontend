@@ -1,7 +1,21 @@
-#spinner{
-    color: white !important;
+#spinner {
+    color: black !important;
 }
 
 #spinner::ng-deep circle {
-    stroke: #fff;
-  }
+    stroke: black;
+}
+
+.material-icons {
+    color: rgb(59, 55, 55) ;
+}
+
+.material-icons:hover {
+    color: limegreen;
+}
+.hidden{
+    display: none !important;
+}
+.show{
+    display: inline-block !important;
+}

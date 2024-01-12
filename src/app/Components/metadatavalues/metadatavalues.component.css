@@ -1,4 +1,14 @@
 .example-chip-list {
-    width: 100%;
-  }
-  
+  width: 100%;
+}
+
+#nodeLink {
+  width: max-content;
+  display: flex;
+  border-radius: 0% !important;
+  font-size: medium;
+  font-weight: 500;
+}
+table {
+  width: 100%;
+}

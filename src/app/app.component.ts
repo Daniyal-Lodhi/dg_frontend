@@ -16,7 +16,7 @@ export class AppComponent {
   
   route:any ;
   constructor(){
-    this.route = location.pathname
+    // this.route = location.pathname
     this.location = location
 
   }  

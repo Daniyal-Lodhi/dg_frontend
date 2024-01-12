@@ -1,27 +1,47 @@
-# DgFrontend
+# Data Governance Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
+This innovative project empowers organizations by seamlessly governing and managing their data, ensuring efficiency and compliance through advanced data governance solutions.
 
-## Development server
+## Built With
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular** - The web framework used
+- **RxJS** - Reactive Extensions Library for JavaScript
 
-## Code scaffolding
+## Getting Started
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Follow these instructions to get a copy of the project up and running on your local machine.
 
-## Build
+### Prerequisites
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Make sure you have the following software installed on your machine:
 
-## Running unit tests
+- Node.js (v14.0.0 or higher)
+- npm (v6.0.0 or higher)
+- Angular CLI (v16.0.0 or higher)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Installing
 
-## Running end-to-end tests
+1. Clone the repository to your local machine:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```bash
+    git clone https://github.com/your-username/angular-demo.git
+    ```
 
-## Further help
+2. Navigate to the project directory:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    ```bash
+    cd DG_FRONTEND
+    ```
+
+3. Install project dependencies:
+
+    ```bash
+    npm install
+    ```
+
+### Running the Application
+
+Run the development server. The app will be available at http://localhost:4200/.
+
+```bash
+ng serve

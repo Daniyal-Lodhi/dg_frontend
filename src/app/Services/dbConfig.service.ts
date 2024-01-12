@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { dbConfigs } from '../../../Z/getDbconfigs'
 @Injectable({
   providedIn: 'root'
 })
 export class DbConfigService {
 
-  public selectedDatabaseUrl: string = ''; 
-  dbConfigUrl: string = 'http://192.168.18.46:8080/api/internal/db-configs'
+  refresh_db_url:string = "http://127.0.0.1:8080/api/internal/extract/"
+
+  dbConfigUrl: string = 'http://127.0.0.1:8080/api/internal/db-configs'
 
   constructor(private http: HttpClient) {}
 
@@ -20,9 +20,9 @@ export class DbConfigService {
     // return dbConfigs.data.content
     return this.http.get(this.dbConfigUrl)
   }
-  
-  // to set and view the databases selected 
-  setSelectedDatabase(selectedDb: string) {
-    this.selectedDatabaseUrl = selectedDb;
+
+  refreshDatabase(dbId:string):Observable<any>{
+    return this.http.post(this.refresh_db_url+dbId,{})
   }
+  
 }

@@ -1,3 +1,11 @@
-/* *{
-    border: 1px solid #000;
-} */
+#nodeLink{
+    width: max-content;
+    display: flex;
+    border-radius: 0% !important ;
+    font-size: medium;
+    font-weight: 500;
+    color: red;
+}
+mat-form-field {
+    margin-right: 12px;
+  }
