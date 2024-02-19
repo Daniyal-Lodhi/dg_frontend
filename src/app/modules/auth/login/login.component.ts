@@ -18,6 +18,7 @@ export class LoginComponent {
   sign_in():any{
     if(this.user_email == 'admin' && this.user_password == 'admin'){
       console.log(this.user_email , this.user_password)
+      localStorage.setItem("signedin_in",'true')
     this.router.navigate(['dbConfigs'])
     }
     else{

@@ -1,4 +1,4 @@
-<div class="flex sm:pr-2">
+<div class="flex sm:pr-2" *ngIf="Data; else loading">
     <!-- Trigger display id is to get the id number of the meta data value that has to be displayed -->
     <!-- <app-side-nav *ngIf="ColumnsData" (triggerDisplayId)="displayData($event)" [treeData]="ColumnsData"
         [forComponent]="'metaDataValues'"></app-side-nav> -->
@@ -142,7 +142,7 @@
                     </div>
                        <div class="ml-2">
                             <input [(ngModel)]="aliasName" name="alias" type="text" placeholder="Enter alias name" class="mb-2 text-sm border-b outline-none mr-3">   
-                            <button (click)="postAlias()" #aliasbtn class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
+                            <button (click)="postAlias()" #aliasbtn id="aliasbtn" class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
 
                             </div>
                 </div>
@@ -161,6 +161,7 @@
                             *ngFor="let mappedEntities of Data.columnEntityMapDto  || Data.mappedBusinessDomainEntitiesDto; index as i ">
                             <div class="bg-slate-500 rounded-full relative text-white text-sm px-3 py-1 mb-2">
                                 <button *ngIf="Data.tableName" (click)="deleteTableMapping(mappedEntities.id)" class="absolute bg-black text-white -top-[8px] -right-2 rounded-full text-xs px-2 cursor-pointer">x</button>
+                                
                                 <button *ngIf="Data.columnName" (click)="deleteColMapping(mappedEntities.id)" class="absolute bg-black text-white -top-[8px] -right-2 rounded-full text-xs px-2 cursor-pointer">x</button>
 
                                 {{
@@ -184,7 +185,7 @@
                 <div class="flex mt-4 ">
                     <div *ngFor="let related_term of relatedTerms.data"
                         class="bg-slate-500 mr-2 mb-2 rounded-full text-white text-sm px-3 py-1 ">
-                        {{related_term.columnName}}
+                        {{related_term}}
                     </div>
                 </div>
             </div>
@@ -243,3 +244,7 @@
         </div>
     </div>
 </div>
+<ng-template #loading class=" " >
+    <mat-spinner class="mx-auto my-48"  ngClass="align-middle"  id="spinner" diameter="50" ></mat-spinner>
+
+</ng-template>

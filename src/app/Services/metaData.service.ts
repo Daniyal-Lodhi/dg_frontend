@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DbConfigService } from './dbConfig.service';
+import { environment } from 'src/environments/environment';
+
+const { base_url } = environment 
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +13,7 @@ import { DbConfigService } from './dbConfig.service';
 export class DataService {
   // private selectedDbId:string ;
   private metaDataUrl: string = ""
-  private columnRelatedTermsURL:string = "http://127.0.0.1:8080/api/internal/column-related-terms/"
+  private columnRelatedTermsURL:string = `${base_url}/column-related-terms/`
 
   constructor(private http: HttpClient, private selectedDb: DbConfigService) { }
 
@@ -24,7 +27,7 @@ export class DataService {
   // setting the selected db id
   setSelectedDbId(id: string) {
     // this.selectedDbId = id 
-    this.metaDataUrl = "http://127.0.0.1:8080/api/internal/db-metadata-values/".concat(id)
+    this.metaDataUrl = `${base_url}/db-metadata-values/`.concat(id)
   }
 
   getSelectedDbId() {
@@ -39,12 +42,12 @@ export class DataService {
 
   // to map the the meta data (table/column) with business domain entities
   mapEntitiesWithTable(tableId:any,entitiesIdList:any[]): Observable<any> {
-    return this.http.post(`http://127.0.0.1:8080/api/internal/${tableId}/catalog-mapping-table`, entitiesIdList)
+    return this.http.post(`${base_url}/${tableId}/catalog-mapping-table`, entitiesIdList)
   }
 
   // to map the the meta data (table/column) with business domain entities
   mapEntitiesWithColumn(columnId:any,entitiesIdList:any[]): Observable<any> {
-    return this.http.post(`http://127.0.0.1:8080/api/internal/${columnId}/catalog-mapping-column`, entitiesIdList,{
+    return this.http.post(`${base_url}/${columnId}/catalog-mapping-column`, entitiesIdList,{
       headers:{
         "Content-Type":"application/json"
       }
@@ -58,29 +61,29 @@ export class DataService {
 
   // get input values
   getColumnInputValues(id:any): Observable<any>{
-    return this.http.get(`http://127.0.0.1:8080/api/internal/db-metadata-column/${id}/values`)
+    return this.http.get(`${base_url}/db-metadata-column/${id}/values`)
   }  
   
   // post input values
   postColumnInputValues(id:any,body:any): Observable<any>{
-    return this.http.post(`http://127.0.0.1:8080/api/internal/db-metadata-column/${id}/values`,body)
+    return this.http.post(`${base_url}/db-metadata-column/${id}/values`,body)
   }
 
   // get column aliases
   getColumnAliases(id:any): Observable<any>{
-    return this.http.get(`http://127.0.0.1:8080/api/internal/db-metadata-column/${id}/alias`)
+    return this.http.get(`${base_url}/db-metadata-column/${id}/alias`)
   } 
   // post input values
   postColumnAliases(id:any,body:any): Observable<any>{
-    return this.http.post(`http://127.0.0.1:8080/api/internal/db-metadata-column/${id}/alias`,body)
+    return this.http.post(`${base_url}/db-metadata-column/${id}/alias`,body)
   }
 
   deleteTableMapping(tableId:any,entId:any): Observable<any>{
-    return this.http.delete(`http://127.0.0.1:8080/api/internal/delete/${tableId}/catalog-mapping-table`,{body:entId})
+    return this.http.delete(`${base_url}/delete/${tableId}/catalog-mapping-table`,{body:entId})
   }
 
   deleteColMapping(columnId:any,entId:any): Observable<any>{
-    return this.http.delete(`http://127.0.0.1:8080/api/internal/delete/${columnId}/catalog-mapping-column`,{body:entId})
+    return this.http.delete(`${base_url}/delete/${columnId}/catalog-mapping-column`,{body:entId})
   }
 
   

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component,Output, EventEmitter} from '@angular/core';
 import { DbConfigService } from 'src/app/services/dbConfig.service';
 import { DataService } from 'src/app/services/metaData.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 
 @Component({
@@ -13,18 +15,21 @@ export class dbConfigs {
 
   dbConfigs: any = []
   alertModal: boolean = false;
+  @Output() refreshTree: EventEmitter<null> = new EventEmitter();
 
 
 
 
 
-  constructor(private dataSource: DbConfigService, private metadataService: DataService, private router: Router) {
+
+  constructor(private dataSource: DbConfigService, private metadataService: DataService, private router: Router,  public _snackBar: MatSnackBar) {
     this.getDbConfig()
+    
   }
-
   getDbConfig() {
     // this.dbConfigs = this.dataSource.getDatabases()
     this.dbConfigs = this.dataSource.getDatabases().subscribe(dbConfig => {
+      console.log("hello")
       console.log(dbConfig.data.content);
       this.dbConfigs = dbConfig.data.content
     }
@@ -35,20 +40,31 @@ export class dbConfigs {
     const spinner = document.getElementById("loadspinner" + dbid)
     loadbtn.classList.add("hidden")
     spinner.classList.add('show')
+   
     this.dataSource.refreshDatabase(dbid).subscribe({
       complete: () => {
-        loadbtn.classList.remove("hidden")
+        loadbtn.classList.remove("hidden") 
         spinner.classList.remove("show")
+        console.log("success")
+        this.openSnackBar()
       },
       error: (error) => { console.log(error)
         loadbtn.classList.remove("hidden")
-        spinner.classList.remove("show") }
+        spinner.classList.remove("show") 
+        this.openSnackBar()
+      }
     })
 
   }
-
+  openSnackBar() {
+    this._snackBar.open('Data refreshed','', {
+      duration: 1000,
+    });
+    this.refreshTree.emit()
+  }
+// load check
   navigateToMetadatacomp(dbId: number, status: any) {
-    if (status != true) {
+    if (status) {
       this.alertModal = true
     }
     else {

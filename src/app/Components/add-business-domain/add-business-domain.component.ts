@@ -1,8 +1,6 @@
 import { Component, inject ,Output, EventEmitter } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { businessDomainService } from 'src/app/services/businessDomain.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

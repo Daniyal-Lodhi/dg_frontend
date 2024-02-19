@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+const { base_url } = environment
 @Injectable({
   providedIn: 'root'
 })
 export class DbConfigService {
 
-  refresh_db_url:string = "http://127.0.0.1:8080/api/internal/extract/"
+  refresh_db_url:string = `${base_url}/extract/`
 
-  dbConfigUrl: string = 'http://127.0.0.1:8080/api/internal/db-configs'
+  dbConfigUrl: string = `${base_url}/db-configs`
 
   constructor(private http: HttpClient) {}
 

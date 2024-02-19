@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 
-
+ 
 
 
 
@@ -88,6 +88,7 @@ export class MetadatavaluesComponent implements OnInit {
   getColumnRelatedTerms(id: any) {
     this.metadataSource.getColumnRelatedTerms(id).subscribe(rValues => {
       this.relatedTerms = rValues
+      // console.log(rValues)
     })
   }
 
@@ -162,6 +163,7 @@ export class MetadatavaluesComponent implements OnInit {
           for (let j = 0; j < this.TableData[i].columnList.length; j++) {
             if (this.TableData[i].columnList[j].id == displayData.displayId) {
               this.Data = this.TableData[i].columnList[j];
+              // console.log(this.Data)
 
               break;
             }
@@ -371,7 +373,10 @@ export class MetadatavaluesComponent implements OnInit {
     this.metadataSource.postColumnAliases(this.Data.id, { aliasName: this.aliasName }).pipe(
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
-        this.getAliases(this.Data.id)
+        this.getAliases(this.Data.id);
+
+        // Clear the input field (not the button)
+        this.aliasName = "";
       })
     ).subscribe({
       next(value) {
@@ -381,8 +386,7 @@ export class MetadatavaluesComponent implements OnInit {
         console.log(err)
       },
       complete() {
-        let alias_btn = document.getElementById('aliasbtn') as HTMLInputElement;
-        alias_btn.value = '';
+      
         // console.log('success')
 
       },

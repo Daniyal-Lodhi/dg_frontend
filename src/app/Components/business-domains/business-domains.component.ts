@@ -58,7 +58,7 @@ export class BusinessDomainsComponent implements OnInit {
     }).pipe(
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
-        this.getBusinessDomainData();
+        this.Data.businessDomainEntitiesDtoList.push({name:this.entityName})
       })
     ).subscribe({
       next(value) {
@@ -77,7 +77,7 @@ export class BusinessDomainsComponent implements OnInit {
     })
     this.addEntityLoader = false;
     console.log({
-      "Entity Name": this.entityDescription,
+      "Entity Name": this.entityName,
       "Entity Description": this.entityDescription
     })
   }
@@ -172,6 +172,7 @@ export class BusinessDomainsComponent implements OnInit {
     for (let i = 0; i < this.businessDomainData.length; i++) {
       if (this.businessDomainData[i].id == displayData.displayId) {
         this.Data = this.businessDomainData[i];
+        console.log(this.Data)
       }
     }
   }
