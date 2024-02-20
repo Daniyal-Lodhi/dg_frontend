@@ -27,5 +27,9 @@ export class DbConfigService {
   refreshDatabase(dbId:string):Observable<any>{
     return this.http.post(this.refresh_db_url+dbId,{})
   }
+
+  addDbConfig(dbBody:Object):Observable<any>{
+    return this.http.post(`${base_url}/db-config`,dbBody)
+  }
   
 }

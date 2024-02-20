@@ -25,7 +25,7 @@ export class AppComponent {
   checkAuth(){
     if(localStorage.getItem('signedin_in') === 'true'){
       console.log("signed in")
-      this.router.navigate(['dbConfigs'])
+      // this.router.navigate(['dbConfigs'])
 
     }
     else{

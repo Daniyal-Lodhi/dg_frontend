@@ -29,7 +29,7 @@ export class dbConfigs {
   getDbConfig() {
     // this.dbConfigs = this.dataSource.getDatabases()
     this.dbConfigs = this.dataSource.getDatabases().subscribe(dbConfig => {
-      console.log("hello")
+      console.log("hello world")
       console.log(dbConfig.data.content);
       this.dbConfigs = dbConfig.data.content
     }
@@ -57,14 +57,14 @@ export class dbConfigs {
 
   }
   openSnackBar() {
-    this._snackBar.open('Data refreshed','', {
-      duration: 1000,
+    this._snackBar.open('Data reloaded, Kindly refresh the Page','Ok', {
+      duration: 2000,
     });
     this.refreshTree.emit()
   }
 // load check
-  navigateToMetadatacomp(dbId: number, status: any) {
-    if (status) {
+  navigateToMetadatacomp(dbId: number, loaded: any) {
+    if (!loaded) {
       this.alertModal = true
     }
     else {

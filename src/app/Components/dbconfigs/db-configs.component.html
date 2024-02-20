@@ -52,17 +52,17 @@
                                 <!-- <span>Load data</span> -->
                             </div>
                             <!-- <div class="{{toString(db.id)}} hidden"> -->
+                                
 
                             
                         </button> 
                         <!-- view data btn -->
                             <button aria-current="page"
-                                (click)="navigateToMetadatacomp(db.id,db.status)"
+                                (click)="navigateToMetadatacomp(db.id,db.isLoaded)"
                                 class=" flex justify-center items-center space-x-1 h-10 text-white rounded-md">
                                 <mat-icon class="text-white cursor-pointer w-auto h-auto text-xl " title="view">visibility</mat-icon>
                                     <!-- <span>View data</span> -->
                             </button>
-                            <!-- Delete Modal -->
                             <div *ngIf="alertModal" >
                                 <div class="relative z-10" aria-labelledby="modal-title" role="dialog"
                                     aria-modal="true">
@@ -106,7 +106,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Delete Modal -->
 
                             </div>
 

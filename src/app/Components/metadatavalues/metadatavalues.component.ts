@@ -47,6 +47,7 @@ export class MetadatavaluesComponent implements OnInit {
   aliases: any[];
   aliasName: string;
   selectedmappedEntities: any[] = []
+  deleteModal:Boolean = false;
 
 
 
@@ -365,7 +366,7 @@ export class MetadatavaluesComponent implements OnInit {
 
     this.metadataSource.getColumnAliases(id).subscribe(res => {
       this.aliases = res.data
-      // console.log(this.aliases, this.Data.id)
+      console.log(this.aliases, this.Data.id)
     })
   }
 
@@ -392,6 +393,18 @@ export class MetadatavaluesComponent implements OnInit {
       },
     })
   }
+
+  deleteAlias(aliasId:string,aliasName:string){
+    this.metadataSource.deleteAlias(aliasId).subscribe({
+      error(error){console.log(error)},
+      complete() {},
+    })
+    this.aliases = this.aliases.filter(alias => alias.aliasName !== aliasName);
+
+
+    this.deleteModal = false
+  }
+
   // to delete column mapping
   deleteTableMapping(entId: any) {
     // console.log("the delete url is ", `http://127.0.0.1:8080/api/internal/delete/${this.Data.id}/catalog-mapping-column`, entId)

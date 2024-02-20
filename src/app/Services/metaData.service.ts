@@ -77,7 +77,9 @@ export class DataService {
   postColumnAliases(id:any,body:any): Observable<any>{
     return this.http.post(`${base_url}/db-metadata-column/${id}/alias`,body)
   }
-
+  deleteAlias(id:string):Observable<any>{
+    return this.http.delete(`${base_url}/db-metadata-column/${id}/alias`)
+  }
   deleteTableMapping(tableId:any,entId:any): Observable<any>{
     return this.http.delete(`${base_url}/delete/${tableId}/catalog-mapping-table`,{body:entId})
   }
@@ -85,6 +87,7 @@ export class DataService {
   deleteColMapping(columnId:any,entId:any): Observable<any>{
     return this.http.delete(`${base_url}/delete/${columnId}/catalog-mapping-column`,{body:entId})
   }
+  
 
   
 
