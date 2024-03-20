@@ -55,30 +55,61 @@ export class DataService {
   }
 
   // to get related terms for column 
-  getColumnRelatedTerms(columnId:any): Observable<any>{
-    return this.http.get(this.columnRelatedTermsURL.concat(columnId))
+  getExternalColumnRelatedTerms(id:any): Observable<any>{
+    return this.http.get(`${base_url}/column-attributes/${id}/related-term`)
+  }
+  getInternalColumnRelatedTerms(id:any): Observable<any>{
+    return this.http.get(`${base_url}/column-related-terms/${id}`)
+  }
+  postExternalRelatedTerm(body:{colId:number,termName:string}):Observable<any>{
+    let {colId,termName} = body
+    return this.http.post(`${base_url}/column-attributes/${colId}`,{
+      "columnAttributeType":"EXTERNAL_RELATED_TERM",
+      "name":termName
+    })
+  }
+  deleteExternalColumnRelatedTerms(id:number):Observable<any>{
+    return this.http.delete(`${base_url}/column-attributes/${id}`)
   }
 
   // get input values
-  getColumnInputValues(id:any): Observable<any>{
-    return this.http.get(`${base_url}/db-metadata-column/${id}/values`)
+  getColumnInputValues(id:string): Observable<any>{
+    return this.http.get(`${base_url}/column-attributes/${id}/value`)
   }  
   
   // post input values
   postColumnInputValues(id:any,body:any): Observable<any>{
-    return this.http.post(`${base_url}/db-metadata-column/${id}/values`,body)
+    return this.http.post(`${base_url}/column-attributes/${id}`,
+    {
+      "columnAttributeType":"VALUE",
+      "name":body.valueName,
+      "description":body.description,
+      "system":null
+    }
+    )
+  }
+
+  deleteColumnInputValues(id:string):Observable<any>{
+    return this.http.delete(`${base_url}/column-attributes/${id}`)
   }
 
   // get column aliases
   getColumnAliases(id:any): Observable<any>{
-    return this.http.get(`${base_url}/db-metadata-column/${id}/alias`)
+    return this.http.get(`${base_url}/column-attributes/${id}/alias`)
   } 
   // post input values
-  postColumnAliases(id:any,body:any): Observable<any>{
-    return this.http.post(`${base_url}/db-metadata-column/${id}/alias`,body)
+  postColumnAliases(id:any,aliasName:string): Observable<any>{
+    return this.http.post(`${base_url}/column-attributes/${id}`,
+    {
+      "columnAttributeType":"ALIAS",
+      "name":aliasName,
+      "description":null,
+      "system":null
+    }
+    )
   }
-  deleteAlias(id:string):Observable<any>{
-    return this.http.delete(`${base_url}/db-metadata-column/${id}/alias`)
+  deleteColumnAlias(id:string):Observable<any>{
+    return this.http.delete(`${base_url}/column-attributes/${id}`)
   }
   deleteTableMapping(tableId:any,entId:any): Observable<any>{
     return this.http.delete(`${base_url}/delete/${tableId}/catalog-mapping-table`,{body:entId})

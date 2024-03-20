@@ -26,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
 import {MatTableModule} from '@angular/material/table';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { AddDbConfigComponent } from './components/add-db-config/add-db-config.component';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { AddDbConfigComponent } from './components/add-db-config/add-db-config.c
     AddBusinessDomainComponent,
     LoginComponent,
     AddDbConfigComponent,
+    DeleteModalComponent,
   ],
   imports: [
     BrowserModule,

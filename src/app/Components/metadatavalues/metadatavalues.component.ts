@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 
- 
+
 
 
 
@@ -29,8 +29,8 @@ var TREE_DATA: any[] = [];
 
 export class MetadatavaluesComponent implements OnInit {
   TableData: any; // Overall data from the backend server
-  Data: any; // for data to view on screen
-  relatedTerms: any //for column related terms
+  Data: any = {}; // for data to view on screen
+  relatedTerms: any[] = [] //for column related terms
   Object: any; // for Object operation in component
   b_domainData: any // to show chips
   showAddEntity: boolean = false
@@ -39,18 +39,26 @@ export class MetadatavaluesComponent implements OnInit {
   filtered_businesdomainEntities: Observable<any[]>;
   businesdomainEntities: any[] = [];
   allbusinesdomainEntities: any[] = [];
-  @ViewChild('domainInput', { static: true }) domainInput: ElementRef<HTMLInputElement>;
   announcer: LiveAnnouncer;
   InputValues: any[] = [];
   valueName: string;
   valueDescription: string;
-  aliases: any[];
+  aliases: any[] = []
   aliasName: string;
+  relatedTermName: string;
   selectedmappedEntities: any[] = []
-  deleteModal:Boolean = false;
+  IPValueDeleteModal: Boolean = false;
+  showAliasDModal: boolean[] = Array(this.aliases.length).fill(false);
+  showIPVDModal: boolean[] = Array(this.InputValues.length).fill(false);
+  ExRelTermDModal: boolean[] = Array(this.relatedTerms.length).fill(false);
+  delTableBusinessEntityModal: boolean[] = [];
+  delColBusinessEntityModal: boolean[] = [];
 
 
 
+
+
+  @ViewChild('domainInput', { static: true }) domainInput: ElementRef<HTMLInputElement>;
 
 
 
@@ -71,6 +79,9 @@ export class MetadatavaluesComponent implements OnInit {
       startWith(null),
       map((domain: string | null) => this._filter(domain))
     );
+    // setTimeout(()=>{
+    //   console.log(this.delColBusinessEntityModal) ;
+    // },2000) ;
 
   }
 
@@ -86,11 +97,60 @@ export class MetadatavaluesComponent implements OnInit {
     })
   }
 
-  getColumnRelatedTerms(id: any) {
-    this.metadataSource.getColumnRelatedTerms(id).subscribe(rValues => {
-      this.relatedTerms = rValues
-      // console.log(rValues)
+  getExternalColumnRelatedTerms(id: any) {
+    // this.relatedTerms = null ;
+    this.metadataSource.getExternalColumnRelatedTerms(id).subscribe(Ex_RValues => {
+      this.relatedTerms = this.relatedTerms.filter((term) => {
+        return term.type == "internal"
+      })
+      Ex_RValues.data.forEach((term) => {
+        console.log(term.name)
+        this.relatedTerms.push({ id: term.id, name: term.name, type: "external" });
+      })
+      // this.relatedTerms = Ex_RValues.data
+      // console.log(Ex_RValues.data)
     })
+  }
+
+  getInternalColumnRelatedTerms(id: number) {
+    this.metadataSource.getInternalColumnRelatedTerms(id).subscribe(In_RValues => {
+      In_RValues.data.forEach((term) => {
+        this.relatedTerms.push({ name: term, type: "internal" });
+      })
+    })
+  }
+
+  postExternalRelatedTerm() {
+    this.metadataSource.postExternalRelatedTerm({ colId: this.Data.id, termName: this.relatedTermName }).pipe(
+      tap(() => {
+        this.getExternalColumnRelatedTerms(this.Data.id)
+        this.relatedTerms.push({ name: this.relatedTermName, type: "external" })
+        this.relatedTermName = "";
+      })
+    ).subscribe({
+      complete: () => { console.log("success") },
+      error: (error) => { console.log(error) }
+    })
+    // console.log(this.relatedTermName)
+  }
+
+  deleteExternalColumnRelatedTerms(id: number, type: string, i: number) {
+    if (type == "external") {
+      this.metadataSource.deleteExternalColumnRelatedTerms(id).subscribe({
+        complete: () => { console.log("successfully deleted external related term") }
+      })
+      this.relatedTerms = this.relatedTerms.filter((term) => {
+        if (term.type == "external") {
+          return term.id != id;
+        }
+        else return term;
+      })
+    }
+    else {
+      alert("The internal related terms are fixed and cannot be deleted")
+    }
+    this.ExRelTermDModal[i] = false;
+
   }
 
   // tree structure 
@@ -164,18 +224,26 @@ export class MetadatavaluesComponent implements OnInit {
           for (let j = 0; j < this.TableData[i].columnList.length; j++) {
             if (this.TableData[i].columnList[j].id == displayData.displayId) {
               this.Data = this.TableData[i].columnList[j];
+              this.aliases = null
+              this.InputValues = null;
+              this.relatedTerms = [];
+              this.getAliases(this.Data.id);
+              this.getInputValues(this.Data.id)
+              this.getExternalColumnRelatedTerms(this.Data.id)
+              this.getInternalColumnRelatedTerms(this.Data.id);
+
               // console.log(this.Data)
 
               break;
             }
           }
-          this.getInputValues(this.Data.id)
           break;
         }
       }
+
     }
-    this.getColumnRelatedTerms(this.Data.id)
-    // console.log(this.Data)
+    console.log(this.Data)
+    this.configuringbzMappingModal()
   }
   // tree end
 
@@ -255,19 +323,6 @@ export class MetadatavaluesComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   toggleshowAddEntity() {
     this.showAddEntity = this.showAddEntity === true ? false : true;
   }
@@ -283,7 +338,7 @@ export class MetadatavaluesComponent implements OnInit {
         })
       })
     ).subscribe({
-      complete() {},
+      complete() { },
     })
     this.businesdomainEntities = []
     this.showAddEntity = false
@@ -301,8 +356,8 @@ export class MetadatavaluesComponent implements OnInit {
         })
       })
     ).subscribe({
-    
-      complete() {},
+
+      complete() { },
     })
     this.businesdomainEntities = []
     this.showAddEntity = false
@@ -327,15 +382,6 @@ export class MetadatavaluesComponent implements OnInit {
   }
 
 
-  getLength(item: any) {
-    return item.length
-  }
-  Date(dateString: string): string {
-    return new Date(dateString).toLocaleString();
-  }
-  LengthOf(x: any) {
-    return x.length
-  }
 
   addInputValues() {
     let body = {
@@ -348,9 +394,6 @@ export class MetadatavaluesComponent implements OnInit {
         this.getInputValues(this.Data.id)
       })
     ).subscribe({
-      next(value) {
-        // console.log('Observable emitted the next value: ' + value);
-      },
       error(err) {
         console.log(err)
       },
@@ -359,57 +402,67 @@ export class MetadatavaluesComponent implements OnInit {
 
       },
     })
+  }
+  deleteInputValues(id: string, i: number) {
+    this.metadataSource.deleteColumnInputValues(id).subscribe({
+      error: (error) => console.log(error)
+    })
+    this.InputValues = this.InputValues.filter((val) => val.id != id);
+    // this.InputValues.splice(index,1) ;
+    this.showIPVDModal[i] = false;
   }
 
   // get aliases 
   getAliases(id: any) {
-
     this.metadataSource.getColumnAliases(id).subscribe(res => {
       this.aliases = res.data
-      console.log(this.aliases, this.Data.id)
+      // console.log(this.aliases, this.Data.id)
     })
   }
 
   postAlias() {
-    this.metadataSource.postColumnAliases(this.Data.id, { aliasName: this.aliasName }).pipe(
+    this.metadataSource.postColumnAliases(this.Data.id, this.aliasName).pipe(
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
         this.getAliases(this.Data.id);
-
-        // Clear the input field (not the button)
+        this.aliases.push({ name: this.aliasName })
+        // Clear the input field 
         this.aliasName = "";
       })
     ).subscribe({
-      next(value) {
-        // console.log('Observable emitted the next value: ' + value);
-      },
       error(err) {
         console.log(err)
       },
       complete() {
-      
         // console.log('success')
-
       },
     })
   }
 
-  deleteAlias(aliasId:string,aliasName:string){
-    this.metadataSource.deleteAlias(aliasId).subscribe({
-      error(error){console.log(error)},
-      complete() {},
+  deleteAlias(aliasId: string, aliasName: string, i: number) {
+    this.metadataSource.deleteColumnAlias(aliasId).pipe(tap(() => {
+      // let aliasIndex = this.aliases.indexOf((alias:{id:string})=>alias.id==aliasId)
+      // this.aliases = this.aliases.filter(alias => alias.id !== aliasId);
+      this.aliases = this.aliases.filter(alias => alias.id !== aliasId);
+      console.log(aliasName)
+      this.showAliasDModal[i] = false;
+
+    })).subscribe({
+      error(error) { console.log(error) },
+      complete() { },
     })
-    this.aliases = this.aliases.filter(alias => alias.aliasName !== aliasName);
+    // console.log(aliasId)
 
 
-    this.deleteModal = false
   }
 
   // to delete column mapping
-  deleteTableMapping(entId: any) {
+  deleteTableMapping(entId: any,i:number) {
     // console.log("the delete url is ", `http://127.0.0.1:8080/api/internal/delete/${this.Data.id}/catalog-mapping-column`, entId)
 
-    this.metadataSource.deleteTableMapping(this.Data.id, entId).subscribe({
+    this.metadataSource.deleteTableMapping(this.Data.id, entId).pipe(tap(()=>{
+      this.delTableBusinessEntityModal[i] = false ;
+    })).subscribe({
       next(value) {
         // console.log('Observable emitted the next value: ' + value);
       },
@@ -422,24 +475,48 @@ export class MetadatavaluesComponent implements OnInit {
       },
     })
     let index = this.Data.mappedBusinessDomainEntitiesDto.findIndex(entity => entity.id === entId);
-    this.Data.mappedBusinessDomainEntitiesDto.splice(index,1)
-  
-  }
-  deleteColMapping(entId: any) {
-    try{
-    this.metadataSource.deleteColMapping(this.Data.id, entId).subscribe({
-      complete() {
-        console.log('success')
+    this.Data.mappedBusinessDomainEntitiesDto.splice(index, 1)
 
-      },
-    })
   }
-  catch(error){}
+  deleteColMapping(entId: any,i:number) {
+    try {
+      this.metadataSource.deleteColMapping(this.Data.id, entId).pipe(tap(()=>{
+        this.delColBusinessEntityModal[i] = false ;
+      })).subscribe({
+        complete() {
+          console.log('success')
+
+        },
+      })
+    }
+    catch (error) { }
     let index = this.Data.columnEntityMapDto.findIndex(entity => entity.id === entId);
-    this.Data.columnEntityMapDto.splice(index,1)
+    this.Data.columnEntityMapDto.splice(index, 1)
+  }
+  configuringbzMappingModal() {
+    if (this.Data.columnName) {
+      this.delColBusinessEntityModal = Array(this.Data?.columnEntityMapDto.length).fill(false);
+      console.log(this.delColBusinessEntityModal)
+    }
+    else {
+      this.delTableBusinessEntityModal = Array(this.Data?.mappedBusinessDomainEntitiesDto.length).fill(false);
+      console.log(this.delTableBusinessEntityModal)
+      // console.log("object")
+    }
+  }
+  getLength(item: any) {
+    return item.length
+  }
+  Date(dateString: string): string {
+    return new Date(dateString).toLocaleString();
+  }
+  LengthOf(x: any) {
+    return x.length
   }
 
-
+  test() {
+    console.log(this.delColBusinessEntityModal)
+  }
   ngOnInit(): void {
     this.Object = Object;
 

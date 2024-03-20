@@ -88,7 +88,7 @@ export class AddBusinessDomainComponent {
   handleAddBusinessDomain() {
     // console.log("domain Name is: ",this.domainName,"\n domain description is: ",this.domainDescription,"\n domain entites are: ",this.entites)
     let domainBody = {
-      id: 2,
+      // id: 1,
       name: this.domainName,
       description: this.domainDescription,
       businessDomainEntitiesDtoList: this.entites
@@ -104,11 +104,11 @@ export class AddBusinessDomainComponent {
       }, error(err) {
         console.log(err)
       }, complete() {
-        console.log("success")
+        // console.log("success")
 
       },
     })
-    console.log(domainBody)
+    // console.log(domainBody)
   }
 
   return_back(){
