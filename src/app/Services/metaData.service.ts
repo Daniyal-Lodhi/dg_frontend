@@ -53,6 +53,13 @@ export class DataService {
       }
     })
   }
+  deleteTableMapping(tableId:any,entId:any): Observable<any>{
+    return this.http.delete(`${base_url}/delete/${tableId}/catalog-mapping-table`,{body:entId})
+  }
+
+  deleteColMapping(columnId:any,entId:any): Observable<any>{
+    return this.http.delete(`${base_url}/delete/${columnId}/catalog-mapping-column`,{body:entId})
+  }
 
   // to get related terms for column 
   getExternalColumnRelatedTerms(id:any): Observable<any>{
@@ -111,13 +118,7 @@ export class DataService {
   deleteColumnAlias(id:string):Observable<any>{
     return this.http.delete(`${base_url}/column-attributes/${id}`)
   }
-  deleteTableMapping(tableId:any,entId:any): Observable<any>{
-    return this.http.delete(`${base_url}/delete/${tableId}/catalog-mapping-table`,{body:entId})
-  }
-
-  deleteColMapping(columnId:any,entId:any): Observable<any>{
-    return this.http.delete(`${base_url}/delete/${columnId}/catalog-mapping-column`,{body:entId})
-  }
+  
   
 
   

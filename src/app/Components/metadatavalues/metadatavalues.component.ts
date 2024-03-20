@@ -331,16 +331,20 @@ export class MetadatavaluesComponent implements OnInit {
     this.metadataSource.mapEntitiesWithTable(id, entityListArr).pipe(
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
-        this.selectedmappedEntities.forEach((item) => {
-          let index = item.indexOf('.')
-          // console.log(index)
-          this.Data.mappedBusinessDomainEntitiesDto.push({ name: item.substring(item.length, index + 1) })
+        this.businesdomainEntities.forEach((item) => {
+          let index = item.name.indexOf('.')
+          let name = item.name.substring(item.name.length, index + 1)
+
+          this.Data.mappedBusinessDomainEntitiesDto.push({ id: item.id, name })
+          this.businesdomainEntities = []
         })
       })
     ).subscribe({
+      next(value) {
+        console.log(value)
+      },
       complete() { },
     })
-    this.businesdomainEntities = []
     this.showAddEntity = false
     // console.log(entityListArr)
   }
@@ -349,17 +353,19 @@ export class MetadatavaluesComponent implements OnInit {
     this.metadataSource.mapEntitiesWithColumn(id, entityListArr).pipe(
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
-        this.selectedmappedEntities.forEach((item) => {
-          let index = item.indexOf('.')
-          // console.log(index)
-          this.Data.columnEntityMapDto.push({ name: item.substring(item.length, index + 1) })
+        this.businesdomainEntities.forEach((item) => {
+          let index = item.name.indexOf('.')
+          let name = item.name.substring(item.name.length, index + 1)
+          this.Data.columnEntityMapDto.push({ id: item.id, name })
+          console.log(this.businesdomainEntities)
+          this.businesdomainEntities = []
+
         })
       })
     ).subscribe({
 
       complete() { },
     })
-    this.businesdomainEntities = []
     this.showAddEntity = false
     // console.log(entityListArr, id)
   }
@@ -452,16 +458,14 @@ export class MetadatavaluesComponent implements OnInit {
       complete() { },
     })
     // console.log(aliasId)
-
-
   }
 
   // to delete column mapping
-  deleteTableMapping(entId: any,i:number) {
+  deleteTableMapping(entId: any, i: number) {
     // console.log("the delete url is ", `http://127.0.0.1:8080/api/internal/delete/${this.Data.id}/catalog-mapping-column`, entId)
 
-    this.metadataSource.deleteTableMapping(this.Data.id, entId).pipe(tap(()=>{
-      this.delTableBusinessEntityModal[i] = false ;
+    this.metadataSource.deleteTableMapping(this.Data.id, entId).pipe(tap(() => {
+      this.delTableBusinessEntityModal[i] = false;
     })).subscribe({
       next(value) {
         // console.log('Observable emitted the next value: ' + value);
@@ -478,10 +482,10 @@ export class MetadatavaluesComponent implements OnInit {
     this.Data.mappedBusinessDomainEntitiesDto.splice(index, 1)
 
   }
-  deleteColMapping(entId: any,i:number) {
+  deleteColMapping(entId: any, i: number) {
     try {
-      this.metadataSource.deleteColMapping(this.Data.id, entId).pipe(tap(()=>{
-        this.delColBusinessEntityModal[i] = false ;
+      this.metadataSource.deleteColMapping(this.Data.id, entId).pipe(tap(() => {
+        this.delColBusinessEntityModal[i] = false;
       })).subscribe({
         complete() {
           console.log('success')
@@ -515,7 +519,7 @@ export class MetadatavaluesComponent implements OnInit {
   }
 
   test() {
-    console.log(this.delColBusinessEntityModal)
+    console.log(this.allbusinesdomainEntities);
   }
   ngOnInit(): void {
     this.Object = Object;
