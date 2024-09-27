@@ -1,18 +1,18 @@
 <div class="flex w-full flex-col py-5">
     <div>
-        
+         
         <div class=" overflow-hidden  mb-4 w-[90%] sm:w-[100%] mx-auto ml-3 sm:mx-0 ">
             <h1 class="text-3xl mt-2 mb-5 font-bold">Business Domain | Add</h1>
             <form class="w-[100%] ">
                 <div class="flex flex-wrap -mx-3 mb-3">
                     <div class=" w-full  px-3 mb-4 md:mb-0">
                         <label class="block text-lg uppercase tracking-wide text-gray-700 font-bold mb-2"
-                            for="grid-first-name">
+                            for="domainName">
                             Name
                         </label> 
-                        <input [(ngModel)]="domainName" name="entityName"
+                        <input [(ngModel)]="domainName" name="entityName" id="domainName"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            id="grid-first-name" type="text" placeholder="Entity name here.">
+                             type="text" placeholder="Entity name here.">
                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                     </div>
 
@@ -20,23 +20,23 @@
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                         <label class="block text-lg uppercase tracking-wide text-gray-700  font-bold mb-2"
-                            for="grid-description">
+                            for="domainDesc">
                             Description
                         </label>
-                        <textarea [(ngModel)]="domainDescription" name="entityDescription"
+                        <textarea [(ngModel)]="domainDescription" name="domainDesc" id="domainDesc"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-description" type="text" placeholder="Description here."></textarea>
+                        type="text" placeholder="Description here."></textarea>
                         <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full ">
                         <label class="block text-lg px-3 uppercase tracking-wide text-gray-700  font-bold mb-2"
-                            for="grid-description">
+                            for="domainEntity">
                             Add entities
                         </label>
                         <div class="px-1">
-                            <input class="mb-5 justify-start w-[50%] p-2 bg-slate-300 rounded-md outline-none text-slate-700 " placeholder="New enitity..." [matChipInputFor]="chipGrid"
+                            <input id="domainEntity" class="mb-5 justify-start w-[50%] p-2 bg-slate-300 rounded-md outline-none text-slate-700 " placeholder="New enitity..." [matChipInputFor]="chipGrid"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                             (matChipInputTokenEnd)="add($event)" />
 
@@ -64,7 +64,7 @@
                     <button (click)="return_back()"  class="bg-black px-1 py-1 text-white rounded-md flex items-center justify-center">
                         <mat-icon> keyboard_backspace </mat-icon>
                     </button>
-                    <button (click)="handleAddBusinessDomain()" class="bg-black px-3 py-1 text-white rounded-md">Save</button>
+                    <button id="saveBznsDomain" (click)="handleAddBusinessDomain()" class="bg-black px-3 py-1 text-white rounded-md">Save</button>
                 </div>
                 
                 

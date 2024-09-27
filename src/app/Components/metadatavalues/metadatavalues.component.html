@@ -55,7 +55,7 @@
                 <div class="text-2xl text-gray-700 font-bold " *ngIf="Data.tableName">Table: {{Data.tableName}}</div>
                 <div class="text-2xl text-gray-700 font-bold " *ngIf="Data.columnName">Column: {{Data.columnName}}</div>
 
-                <button (click)="toggleshowAddEntity()"
+                <button (click)="toggleshowAddEntity()" id="addMapping"
                     class="bg-black text-white px-2 py-1 rounded-md">{{!showAddEntity?"Map business entities":"Close
                     mapping"}}</button>
             </div>
@@ -94,7 +94,7 @@
                     </mat-form-field>
                 </form>
                 <div *ngIf="Data.tableName" class="flex-col items-end space-y-2 ">
-                    <button (click)="mapTableAndEntities(Data.id)"
+                    <button id="maptableEntity" (click)="mapTableAndEntities(Data.id)"
                         class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map
                             entity':'Map Entities'}}</button>
                             <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to
@@ -102,7 +102,7 @@
 
                 </div>
                 <div *ngIf="Data.columnName" class="flex-col items-end space-y-2">
-                    <button (click)="mapColumnAndEntities(Data.id)"
+                    <button id="mapColEntity" (click)="mapColumnAndEntities(Data.id)"
                         class="bg-green-500 text-white px-2 py-1 rounded-md">{{businesdomainEntities.length<=1?'Map
                             entity':'Map Entities'}}</button>
                             <p class="text-slate-700 text-xs">(The slected business domain entities will be mapped to
@@ -148,10 +148,10 @@
 
                     </div>
                     <div class="ml-2">
-                        <input [(ngModel)]="aliasName" name="alias" type="text" placeholder="Enter alias name"
+                        <input [(ngModel)]="aliasName" id="aliasInp" name="alias" type="text" placeholder="Enter alias name"
                             class="mb-2 text-sm border-b outline-none mr-3">
-                        <button (click)="postAlias()" #aliasbtn id="aliasbtn"
-                            class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
+                        <button (click)="postAlias()"  id="aliasbtn" [disabled]="aliasName== '' "
+                            class="disabled:bg-slate-500 px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
                     </div>
 
                 </div>
@@ -216,12 +216,11 @@
 
                     </div>
                 </div>
-                <button (click)="test()">press</button>
                 <div class="ml-2 mt-2 ">
-                    <input [(ngModel)]="relatedTermName" name="relatedTerm" type="text" placeholder="Enter related term"
+                    <input [(ngModel)]="relatedTermName" id="rltTermInp" name="relatedTerm" type="text" placeholder="Enter related term"
                         class="mb-2 text-sm border-b outline-none mr-3">
-                    <button (click)="postExternalRelatedTerm()" 
-                        class="px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
+                    <button (click)="postExternalRelatedTerm()" [disabled]="relatedTermName == '' " id="rltTermBtn"
+                        class=" disabled:bg-slate-500 px-3 py-1 bg-slate-800 hover:bg-black rounded-md text-white ">+</button>
                 </div>
             </div>
         </div>
@@ -246,10 +245,10 @@
                         <tbody>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                 *ngFor="let value of InputValues; let i = index ">
-                                <th scope="row"
+                                <td scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{value.name}}
-                                </th>
+                                </td>
                                 <td class="px-6 py-4">
                                     {{value.description}}
                                 </td>
@@ -267,16 +266,16 @@
                             <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 ">
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <input [(ngModel)]="valueName" name="name" type="text"
+                                    <input [(ngModel)]="valueName" id="inpValInp" name="name" type="text"
                                         class="inputvalues outline-none" placeholder="Value name here">
                                 </th>
                                 <td class="px-6 py-4 ">
-                                    <input [(ngModel)]="valueDescription" name="desc" type="text"
+                                    <input [(ngModel)]='valueDescription' id="inpDescInp" name="desc" type="text"
                                         class="inputvalues outline-none" placeholder="Value description here">
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button (click)="addInputValues()"
-                                        class="flex items-center justify-center h-full border my-auto text-center px-3 py-1 bg-slate-900 hover:bg-black rounded-md text-white">+</button>
+                                    <button id="inpValBtn" (click)="addInputValues()" [disabled]="valueName == '' || valueDescription == ''  "
+                                        class=" disabled:bg-slate-500 flex items-center justify-center h-full border my-auto text-center px-3 py-1 bg-slate-900 hover:bg-black rounded-md text-white">+</button>
                                 </td>
                             </tr>
                         </tbody>

@@ -1,4 +1,4 @@
-<div class="overflow-hidden ">
+<div class="overflow-hidden " *ngIf="dbConfigs ; else loading">
     <div class=" w-screen py-32 sm:mx-auto h-screen bg-slate-100 px-6 sm:px-16 lg:px-32 ">
 
         <div *ngIf="dbConfigs && dbConfigs.length > 0" class="relative overflow-x-scroll md:overflow-auto shadow-md sm:rounded-lg rounded-sm">
@@ -119,3 +119,6 @@
 
     </div>
 </div>
+<ng-template #loading >
+    <mat-spinner class="mx-auto my-48" ngClass="align-middle" id="spinner" diameter="50"></mat-spinner>
+</ng-template>

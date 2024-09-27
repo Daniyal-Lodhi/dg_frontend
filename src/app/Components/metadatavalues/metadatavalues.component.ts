@@ -41,11 +41,11 @@ export class MetadatavaluesComponent implements OnInit {
   allbusinesdomainEntities: any[] = [];
   announcer: LiveAnnouncer;
   InputValues: any[] = [];
-  valueName: string;
-  valueDescription: string;
+  valueName: string = '';
+  valueDescription: string = '';
   aliases: any[] = []
-  aliasName: string;
-  relatedTermName: string;
+  aliasName: string = "";
+  relatedTermName: string = '';
   selectedmappedEntities: any[] = []
   IPValueDeleteModal: Boolean = false;
   showAliasDModal: boolean[] = Array(this.aliases.length).fill(false);

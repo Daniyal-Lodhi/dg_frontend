@@ -30,8 +30,8 @@ interface Entities {
 export class AddBusinessDomainComponent {
   @Output() refreshTree: EventEmitter<null> = new EventEmitter();
   @Output() return: EventEmitter<null> = new EventEmitter();
-  domainName: string;
-  domainDescription: string;
+  domainName: string = '';
+  domainDescription: string = '';
   durationInSeconds = 5;
   constructor(private businessDomainService: businessDomainService, public _snackBar: MatSnackBar) {
   }
@@ -87,8 +87,21 @@ export class AddBusinessDomainComponent {
 
   handleAddBusinessDomain() {
     // console.log("domain Name is: ",this.domainName,"\n domain description is: ",this.domainDescription,"\n domain entites are: ",this.entites)
+    if(this.domainName == '' && this.domainDescription == '' && this.entites.length ==0 ){
+      alert('Input fields cannot be left empty')
+    }
+    else if(this.domainName == ''){
+      alert('domain name cannot be empty')
+      return
+    }
+    else if(this.domainDescription == ''){
+      alert('domain description cannot be empty')
+    }
+    else if(this.entites.length == 0){
+      alert('you need to add atleast 1 domain entity')
+    }
+    else{
     let domainBody = {
-      // id: 1,
       name: this.domainName,
       description: this.domainDescription,
       businessDomainEntitiesDtoList: this.entites
@@ -97,17 +110,19 @@ export class AddBusinessDomainComponent {
       // Use the tap operator to perform a side effect when the observable emits a value
       tap(() => {
         this.openSnackBar()
+        this.entites = []
       })
     ).subscribe({
       next(value) {
         console.log(value)
-      }, error(err) {
+      }, error(err) { 
         console.log(err)
       }, complete() {
         // console.log("success")
 
       },
     })
+  }
     // console.log(domainBody)
   }
 

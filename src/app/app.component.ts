@@ -23,15 +23,15 @@ export class AppComponent {
     this.checkAuth()
   }  
   checkAuth(){
-    if(localStorage.getItem('signedin_in') === 'true'){
-      console.log("signed in")
-      // this.router.navigate(['dbConfigs'])
+    // if(localStorage.getItem('signedin_in') === 'true'){
+    //   console.log("signed in")
+    //   // this.router.navigate(['dbConfigs'])
 
-    }
-    else{
-      console.log("not signed in")
-      this.router.navigate(['login'])
-    }
+    // }
+    // else{
+    //   console.log("not signed in")
+    //   this.router.navigate(['login'])
+    // }
   }
 }
 
