@@ -20,14 +20,12 @@ import { ReactiveFormsModule} from '@angular/forms';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {AsyncPipe} from '@angular/common';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { AddBusinessDomainComponent } from './components/add-business-domain/add-business-domain.component';
+ import { AddBusinessDomainComponent } from './components/add-business-domain/add-business-domain.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 import {MatTableModule} from '@angular/material/table';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { AddDbConfigComponent } from './components/add-db-config/add-db-config.component';
-import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
-
+ 
 
 @NgModule({
   declarations: [
@@ -36,12 +34,10 @@ import { DeleteModalComponent } from './components/delete-modal/delete-modal.com
     // SideNavComponent,
     MetadatavaluesComponent,
     BusinessDomainsComponent,
-    NavbarComponent,
-    AddBusinessDomainComponent,
+     AddBusinessDomainComponent,
     LoginComponent,
     AddDbConfigComponent,
-    DeleteModalComponent,
-  ],
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
